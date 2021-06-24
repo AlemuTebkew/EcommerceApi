@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
@@ -16,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return new ProductCollection(Product::all());
+        return new ProductCollection(Product::paginate(2));
        // return ProductResource::collection(Product::all());
     }
 
@@ -26,9 +27,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+
+      return Product::create(request()->all());
     }
 
     /**
@@ -53,7 +55,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required'
+          ]);
+      return Product::find($id)->update($request->all());
     }
 
     /**

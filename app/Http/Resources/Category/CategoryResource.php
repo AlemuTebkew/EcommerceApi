@@ -18,7 +18,8 @@ class CategoryResource extends JsonResource
     {
         return [
             'name'=>$this->name,
-            'products'=>ProductResource::collection($this->posts)
+            'detail'=>$this->detail,
+            'products'=>ProductResource::collection($this->products)
         ];
     }
 }
